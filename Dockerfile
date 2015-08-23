@@ -2,12 +2,14 @@ FROM alpine
 
 MAINTAINER Andrey Popelo andrey@popelo.com
 
-RUN apk add --update git go && \
+ENV LOGSTASH_FORWARDER_VERSION 0.4.0
+
+RUN apk add --update curl go && \
     mkdir /opt && \
-    git clone git://github.com/elasticsearch/logstash-forwarder.git /opt/logstash-forwarder && \
+    curl -Ls https://github.com/elastic/logstash-forwarder/archive/v$LOGSTASH_FORWARDER_VERSION.tar.gz | tar -vxz -C /opt && \
+    ln -s /opt/logstash-forwarder-$LOGSTASH_FORWARDER_VERSION /opt/logstash-forwarder && \
     cd /opt/logstash-forwarder && \
     go build && \
-    rm -rf /opt/logstash-forwarder/.git && \
-    apk del -r git go
+    apk del -r curl go
 
 CMD ["/opt/logstash-forwarder/logstash-forwarder", "-config", "/etc/logstash-forwarder/config.json"]
