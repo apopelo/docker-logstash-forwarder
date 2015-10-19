@@ -10,4 +10,5 @@ RUN apk add --update git go && \
     rm -rf /opt/logstash-forwarder/.git && \
     apk del -r git go
 
-CMD ["/opt/logstash-forwarder/logstash-forwarder", "-config", "/etc/logstash-forwarder/config.json"]
+ENTRYPOINT ["/opt/logstash-forwarder/logstash-forwarder"]
+CMD ["-config", "/etc/logstash-forwarder/config.json"]
