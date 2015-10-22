@@ -12,4 +12,5 @@ RUN apk add --update curl go && \
     go build && \
     apk del -r curl go
 
-CMD ["/opt/logstash-forwarder/logstash-forwarder", "-config", "/etc/logstash-forwarder/config.json"]
+ENTRYPOINT ["/opt/logstash-forwarder/logstash-forwarder"]
+CMD ["-config", "/etc/logstash-forwarder/config.json"]
